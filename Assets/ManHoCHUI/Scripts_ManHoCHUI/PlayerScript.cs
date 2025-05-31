@@ -30,6 +30,7 @@ public class PlayerScript : MonoBehaviour
         {
             numberOfPickUps += 1;
             OnItemPickedUp?.Invoke(this, EventArgs.Empty);
+            //Debug.Log(numberOfPickUps);
             Destroy(otherObj.gameObject);
         }
     }

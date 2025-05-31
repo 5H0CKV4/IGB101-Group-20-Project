@@ -2,8 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using TMPro;
 
 public class GameManager_ManhoC : MonoBehaviour
 {
@@ -17,11 +17,7 @@ public class GameManager_ManhoC : MonoBehaviour
     public GameObject deathAreaObj;
     private FallDeathCheck fallDeathCheck;
 
-    public GameObject tutTriggerBowMode;
-    public GameObject tutTriggerDrawArrow;
-    public TMP_Text tutText;
-
-    public TMP_Text pickUpText;
+    public Text pickupText;
 
     public int currentPickUps;
     public int maxPickUps;
@@ -35,23 +31,37 @@ public class GameManager_ManhoC : MonoBehaviour
     public Animator headAnimator;
 
 
+    [Header("Player_ManhoC")]
+    public bool switchPlayerCharacter;
+    public GameObject player_ManHoCHUI;
+    public GameObject mainCamera;
+    public GameObject cameraFreeLook;
+
     // Start is called before the first frame update
     void Start()
     {
+        if (switchPlayerCharacter)
+        {
+            player_ManHoCHUI.SetActive(true);
+            player.SetActive(false);
+            cameraFreeLook.SetActive(true);
+            mainCamera.GetComponent<ThirdPersonCamera>().enabled = false;
+            mainCamera.GetComponent<Cinemachine.CinemachineBrain>().enabled = true;
+            player = player_ManHoCHUI;
+        }
+        player.transform.position = spawnPosition.position;
+
+        characterController = player.GetComponent<CharacterController>();
+
         playerScript = player.GetComponent<PlayerScript>();
         playerScript.OnItemPickedUp += UpdateNumOfPickUp;
-        characterController = player.GetComponent<CharacterController>();
-        //playerScript.OnItemPickedUp += UpdateGUI;
+
 
         levelSwitch = exitObj.GetComponent<LevelSwitch_ManhoC>();
         levelSwitch.OnPlayerEnterExit += SwitchScene;
 
         fallDeathCheck = deathAreaObj.GetComponent<FallDeathCheck>();
         fallDeathCheck.OnEnterFallDeathArea += RespawnPlayer;
-
-
-
-        player.transform.position = spawnPosition.position;
 
     }
 
@@ -97,24 +107,19 @@ public class GameManager_ManhoC : MonoBehaviour
         characterController.enabled = true;
     }
 
-    private void UpdateGUITutTxtBowMode()
-    {
-        tutText.text = "Press 'Q' to enter Bow mode";
-    }
-    private void UpdateGUITutTxtDrawArrow()
-    {
-        tutText.text = "Hold 'Left mouse' to draw an arrow, release to shoot";
-    }
 
     private void UpdateGUI()
     {
-        pickUpText.text = "Pickups: " + currentPickUps + "/" + maxPickUps;
+        pickupText.text = "Pickups: " + currentPickUps + "/" + maxPickUps;
     }
 
     private void PlayAudioSamples()
     {
         for (int i = 0; i < audioSources.Length; i++)
         {
+            if (audioSources[i] == null)
+                return;
+
             if (Vector3.Distance(player.transform.position, audioSources[i].transform.position) <= audioProximity)
             {
                 if (!audioSources[i].isPlaying)
