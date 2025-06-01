@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 33796054567887422}
   - component: {fileID: 23021629288540002}
   - component: {fileID: 65153382941413286}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Floor-Stone (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
