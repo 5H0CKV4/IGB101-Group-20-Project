@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/ManHoCHUI/Scenes_ManHoCHUI/IGB101-ManHoCHUI.unity
     guid: 00638cdb1e271a94a81a49626e7b9526
+  - enabled: 1
+    path: Assets/Cassandra Watkins/Scenes/IGB101 - Assignment 1 Cassandra Watkins.unity
+    guid: d534d0f317fdbe344ba29d0d986f9ed0
   m_configObjects: {}
